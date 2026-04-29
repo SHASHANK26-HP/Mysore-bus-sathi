@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MysuruBus Saathi</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --orange: #F26522;
+    --deep-orange: #C94E0A;
+    --purple: #4B1E8F;
+    --gold: #F5A623;
+    --green: #27AE60;
+    --red: #E74C3C;
+    --bg: #FFF8F2;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --shadow: 0 4px 24px rgba(242,101,34,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--purple);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(75,30,143,0.3);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo {
+    width: 36px; height: 36px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .nav-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #fff;
+  }
+  .nav-title span { color: var(--gold); }
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: var(--orange);
+    color: #fff;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    background: #fff;
+    border-bottom: 2px solid var(--border);
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 14px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+  }
+  .tab-btn:hover { color: var(--orange); }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; padding: 24px 20px; max-width: 480px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--purple) 0%, #6B32BF 100%);
+    border-radius: 20px;
+    padding: 28px 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '🚌';
+    position: absolute;
+    right: 20px; bottom: 10px;
+    font-size: 64px;
+    opacity: 0.18;
+  }
+  .hero-tag {
+    font-size: 0.72rem;
+    background: rgba(255,255,255,0.18);
+    border-radius: 20px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  /* ── SEARCH CARD ── */
+  .search-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .search-card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    color: var(--purple);
+  }
+  .field-group { margin-bottom: 12px; }
+  .field-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .field-group select, .field-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-family: 'Inter', sans-serif;
+    background: #FAFAFA;
+    color: var(--text);
+    transition: border 0.2s;
+    appearance: none;
+  }
+  .field-group select:focus, .field-group input:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: #fff;
+  }
+  .swap-btn {
+    width: 32px; height: 32px;
+    background: var(--orange);
+    border: none; border-radius: 50%;
+    color: #fff; font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    transition: transform 0.3s;
+  }
+  .swap-btn:hover { transform: rotate(180deg); }
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--orange), var(--deep-orange));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(242,101,34,0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(242,101,34,0.4);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* ── RESULTS ── */
+  .results { display: none; }
+  .results.show { display: block; }
+  .result-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .result-card:hover { transform: translateX(4px); }
+  .result-card.busy { border-left-color: var(--gold); }
+  .result-card.full { border-left-color: var(--red); }
+  .result-info h4 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .result-info p { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+  .result-meta { text-align: right; }
+  .fare-badge {
+    background: linear-gradient(135deg, var(--orange), var(--deep-orange));
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Baloo 2', cursive;
+  }
+  .crowd-dot {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot.green { background: var(--green); }
+  .dot.yellow { background: var(--gold); }
+  .dot.red { background: var(--red); }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--purple);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── QUICK ACCESS GRID ── */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .quick-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s;
+    text-align: center;
+  }
+  .quick-card:hover { transform: translateY(-3px); }
+  .quick-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .quick-card h4 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .quick-card p { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── POPULAR ROUTES ── */
+  .route-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 8px 16px;
+    margin: 0 6px 8px 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .route-pill:hover {
+    border-color: var(--orange);
+    background: #FFF0E8;
+    color: var(--orange);
+  }
+  .route-pill .fare { color: var(--green); font-weight: 700; }
+
+  /* ── TIMINGS PAGE ── */
+  .stop-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .stop-card h4 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--purple);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .timing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .timing-row:last-child { border-bottom: none; }
+  .timing-row .time { font-weight: 700; font-family: 'Baloo 2', cursive; color: var(--text); }
+  .timing-row .route-no { color: var(--purple); font-weight: 600; }
+  .badge {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .badge.first { background: #E8F8EE; color: var(--green); }
+  .badge.last { background: #FEE8E8; color: var(--red); }
+  .badge.running { background: #EEF2FF; color: var(--purple); }
+
+  /* ── CROWD PAGE ── */
+  .crowd-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .crowd-card .bus-id {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--purple);
+  }
+  .crowd-card .route-tag {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .crowd-bar-wrap {
+    background: var(--border);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .crowd-bar {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s ease;
+  }
+  .crowd-bar.low { background: var(--green); }
+  .crowd-bar.mid { background: var(--gold); }
+  .crowd-bar.high { background: var(--red); }
+  .crowd-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .seats-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .seat {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    background: var(--green);
+    opacity: 0.7;
+  }
+  .seat.taken { background: var(--red); opacity: 0.5; }
+
+  /* ── LOST & FOUND ── */
+  .lf-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .lf-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: #FFF0E8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .lf-info h4 {
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+  .lf-info p { font-size: 0.78rem; color: var(--muted); }
+  .lf-info .lf-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .lf-info .lf-meta span {
+    font-size: 0.72rem;
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: var(--muted);
+  }
+  .report-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(75,30,143,0.3);
+    transition: transform 0.15s;
+  }
+  .report-btn:hover { transform: translateY(-2px); }
+
+  /* ── NEXT BUS ── */
+  .next-bus-hero {
+    background: linear-gradient(135deg, #1A1A2E 0%, var(--purple) 100%);
+    border-radius: 20px;
+    padding: 24px;
+    color: #fff;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .next-bus-hero .label { font-size: 0.8rem; opacity: 0.7; margin-bottom: 4px; }
+  .next-bus-hero .arrives {
+    font-family: 'Baloo 2', cursive;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .next-bus-hero .min-label { font-size: 0.9rem; opacity: 0.8; }
+  .next-bus-hero .route-info {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+
+  /* ── FARE TABLE ── */
+  .fare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .fare-table th {
+    background: var(--purple);
+    color: #fff;
+    padding: 12px 14px;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-align: left;
+  }
+  .fare-table td {
+    padding: 11px 14px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .fare-table tr:last-child td { border-bottom: none; }
+  .fare-table tr:hover td { background: #FFF8F2; }
+  .fare-val {
+    font-weight: 700;
+    color: var(--orange);
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.95rem;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 480px;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 0 auto 16px;
+  }
+  .modal h3 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--purple);
+    margin-bottom: 16px;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .detail-row:last-of-type { border-bottom: none; }
+  .detail-row span:first-child { color: var(--muted); }
+  .detail-row span:last-child { font-weight: 600; }
+  .modal-close {
+    margin-top: 16px;
+    width: 100%;
+    padding: 13px;
+    background: var(--bg);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    color: var(--purple);
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--text);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 300;
+    transition: transform 0.3s;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── FOOTER ── */
+  .footer-bar {
+    background: var(--purple);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 0.78rem;
+    margin-top: 30px;
+  }
+  .footer-bar span { color: var(--gold); font-weight: 700; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page.active > * {
+    animation: fadeIn 0.35s ease both;
+  }
+  .page.active > *:nth-child(2) { animation-delay: 0.05s; }
+  .page.active > *:nth-child(3) { animation-delay: 0.10s; }
+  .page.active > *:nth-child(4) { animation-delay: 0.15s; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">🚌</div>
+    <div class="nav-title">Mysuru<span>Bus</span> Saathi</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">CBS</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('home')">🏠 Home</button>
+  <button class="tab-btn" onclick="showTab('routes')">🗺️ Routes</button>
+  <button class="tab-btn" onclick="showTab('timings')">⏰ Timings</button>
+  <button class="tab-btn" onclick="showTab('crowd')">👥 Crowd</button>
+  <button class="tab-btn" onclick="showTab('nextbus')">🚌 Next Bus</button>
+  <button class="tab-btn" onclick="showTab('fares')">💰 Fares</button>
+  <button class="tab-btn" onclick="showTab('lost')">🔍 Lost & Found</button>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-tag">📍 City Bus Depot — CBS, Mysuru</div>
+    <h1>Mysuru<span>Bus</span> Saathi 💛</h1>
+    <p>Your smart companion for KSRTC City buses. Real-time routes, crowd, fares & more.</p>
+  </div>
+
+  <div class="section-header">⚡ Quick Access</div>
+  <div class="quick-grid">
+    <div class="quick-card" onclick="showTab('routes')">
+      <div class="icon">🗺️</div>
+      <h4>Route Finder</h4>
+      <p>Find best bus route</p>
+    </div>
+    <div class="quick-card" onclick="showTab('timings')">
+      <div class="icon">⏰</div>
+      <h4>Bus Timings</h4>
+      <p>First & last bus times</p>
+    </div>
+    <div class="quick-card" onclick="showTab('crowd')">
+      <div class="icon">👥</div>
+      <h4>Live Crowd</h4>
+      <p>Seat availability</p>
+    </div>
+    <div class="quick-card" onclick="showTab('lost')">
+      <div class="icon">🔍</div>
+      <h4>Lost & Found</h4>
+      <p>Report lost items</p>
+    </div>
+  </div>
+
+  <div class="section-header">🔥 Popular Routes from CBS</div>
+  <div>
+    <div class="route-pill" onclick="fillRoute('CBS','Chamundi Betta')">CBS → Chamundi Betta <span class="fare">₹30</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Mysore Palace')">CBS → Mysore Palace <span class="fare">₹15</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Gokulam')">CBS → Gokulam <span class="fare">₹20</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Hebbal')">CBS → Hebbal <span class="fare">₹22</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Vijayanagar')">CBS → Vijayanagar <span class="fare">₹18</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Kuvempunagar')">CBS → Kuvempunagar <span class="fare">₹15</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Saraswathipuram')">CBS → Saraswathipuram <span class="fare">₹18</span></div>
+    <div class="route-pill" onclick="fillRoute('CBS','Siddarthanagar')">CBS → Siddarthanagar <span class="fare">₹20</span></div>
+  </div>
+</div>
+
+<!-- ══════════ ROUTES ══════════ -->
+<div id="page-routes" class="page">
+  <div class="search-card">
+    <h3>🗺️ Find Best Route</h3>
+    <div class="field-group">
+      <label>From</label>
+      <select id="from-stop">
+        <option value="CBS">CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Chamundi Betta</option>
+        <option>Gokulam</option>
+        <option>Hebbal</option>
+        <option>Vijayanagar</option>
+        <option>Kuvempunagar</option>
+        <option>Saraswathipuram</option>
+        <option>Siddarthanagar</option>
+        <option>Jayalakshmipuram</option>
+        <option>Lakshmipuram</option>
+        <option>Yadavagiri</option>
+        <option>Bogadi</option>
+        <option>Nanjangud Road</option>
+        <option>Bannimantap</option>
+      </select>
+    </div>
+    <button class="swap-btn" onclick="swapStops()" title="Swap">⇅</button>
+    <div class="field-group">
+      <label>To</label>
+      <select id="to-stop">
+        <option>Chamundi Betta</option>
+        <option value="CBS">CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Gokulam</option>
+        <option>Hebbal</option>
+        <option>Vijayanagar</option>
+        <option>Kuvempunagar</option>
+        <option>Saraswathipuram</option>
+        <option>Siddarthanagar</option>
+        <option>Jayalakshmipuram</option>
+        <option>Lakshmipuram</option>
+        <option>Yadavagiri</option>
+        <option>Bogadi</option>
+        <option>Nanjangud Road</option>
+        <option>Bannimantap</option>
+      </select>
+    </div>
+    <button class="btn-primary" onclick="findRoutes()">🔍 Find Best Route</button>
+  </div>
+
+  <div class="results" id="route-results">
+    <div class="section-header">✅ Available Routes</div>
+  </div>
+</div>
+
+<!-- ══════════ TIMINGS ══════════ -->
+<div id="page-timings" class="page">
+  <div class="search-card" style="margin-bottom:20px;">
+    <h3>⏰ Bus Timings</h3>
+    <div class="field-group">
+      <label>Select Route</label>
+      <select onchange="loadTimings(this.value)" id="timing-route">
+        <option value="">-- Select a Route --</option>
+        <option value="101">Route 101 — CBS to Chamundi Betta</option>
+        <option value="102">Route 102 — CBS to Mysore Palace</option>
+        <option value="103">Route 103 — CBS to Gokulam</option>
+        <option value="104">Route 104 — CBS to Hebbal</option>
+        <option value="105">Route 105 — CBS to Vijayanagar</option>
+        <option value="106">Route 106 — CBS to Kuvempunagar</option>
+      </select>
+    </div>
+  </div>
+  <div id="timings-result"></div>
+</div>
+
+<!-- ══════════ CROWD ══════════ -->
+<div id="page-crowd" class="page">
+  <div class="section-header">👥 Live Crowd Meter</div>
+  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">Real-time crowd levels updated by fellow passengers.</p>
+
+  <div class="crowd-card">
+    <div class="bus-id">KA-55-F-1234</div>
+    <div class="route-tag">Route 101 · CBS → Chamundi Betta · Next stop: Zoo</div>
+    <div class="crowd-bar-wrap"><div class="crowd-bar low" style="width:35%"></div></div>
+    <div class="crowd-label"><span>🟢 Low Crowd</span><span>12/40 seats</span></div>
+    <div class="seats-row" id="seats-1"></div>
+  </div>
+
+  <div class="crowd-card">
+    <div class="bus-id">KA-55-F-2288</div>
+    <div class="route-tag">Route 102 · CBS → Mysore Palace · Next stop: CBS</div>
+    <div class="crowd-bar-wrap"><div class="crowd-bar mid" style="width:72%"></div></div>
+    <div class="crowd-label"><span>🟡 Moderate</span><span>29/40 seats</span></div>
+    <div class="seats-row" id="seats-2"></div>
+  </div>
+
+  <div class="crowd-card">
+    <div class="bus-id">KA-55-F-3301</div>
+    <div class="route-tag">Route 105 · CBS → Vijayanagar · Departing in 5 min</div>
+    <div class="crowd-bar-wrap"><div class="crowd-bar high" style="width:95%"></div></div>
+    <div class="crowd-label"><span>🔴 Very Crowded</span><span>38/40 seats</span></div>
+    <div class="seats-row" id="seats-3"></div>
+  </div>
+
+  <button class="btn-primary" onclick="refreshCrowd()">🔄 Refresh Crowd Data</button>
+</div>
+
+<!-- ══════════ NEXT BUS ══════════ -->
+<div id="page-nextbus" class="page">
+  <div class="search-card">
+    <h3>🚌 Next Bus Estimator</h3>
+    <div class="field-group">
+      <label>From Stop</label>
+      <select id="nb-from">
+        <option>CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Zoo</option>
+        <option>Chamundi Betta</option>
+        <option>Gokulam</option>
+        <option>Hebbal</option>
+        <option>Vijayanagar</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>To Stop</label>
+      <select id="nb-to">
+        <option>Chamundi Betta</option>
+        <option>CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Gokulam</option>
+        <option>Hebbal</option>
+        <option>Vijayanagar</option>
+      </select>
+    </div>
+    <button class="btn-primary" onclick="estimateNext()">⏱️ Check Next Bus</button>
+  </div>
+  <div id="next-bus-result"></div>
+</div>
+
+<!-- ══════════ FARES ══════════ -->
+<div id="page-fares" class="page">
+  <div class="section-header">💰 Government Bus Fares from CBS</div>
+  <p style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">Official KSRTC City Bus fares (Ordinary class). Fares are fixed by Karnataka Government.</p>
+
+  <table class="fare-table">
+    <thead>
+      <tr>
+        <th>From → To</th>
+        <th>Route No.</th>
+        <th>Fare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>CBS → Chamundi Betta</td><td>101</td><td class="fare-val">₹30</td></tr>
+      <tr><td>CBS → Mysore Palace</td><td>102</td><td class="fare-val">₹15</td></tr>
+      <tr><td>CBS → Gokulam</td><td>103</td><td class="fare-val">₹20</td></tr>
+      <tr><td>CBS → Hebbal</td><td>104</td><td class="fare-val">₹22</td></tr>
+      <tr><td>CBS → Vijayanagar</td><td>105</td><td class="fare-val">₹18</td></tr>
+      <tr><td>CBS → Kuvempunagar</td><td>106</td><td class="fare-val">₹15</td></tr>
+      <tr><td>CBS → Saraswathipuram</td><td>107</td><td class="fare-val">₹18</td></tr>
+      <tr><td>CBS → Siddarthanagar</td><td>108</td><td class="fare-val">₹20</td></tr>
+      <tr><td>CBS → Jayalakshmipuram</td><td>109</td><td class="fare-val">₹22</td></tr>
+      <tr><td>CBS → Yadavagiri</td><td>110</td><td class="fare-val">₹25</td></tr>
+      <tr><td>CBS → Bogadi</td><td>111</td><td class="fare-val">₹28</td></tr>
+      <tr><td>CBS → Bannimantap</td><td>112</td><td class="fare-val">₹15</td></tr>
+      <tr><td>CBS → Nanjangud Road</td><td>113</td><td class="fare-val">₹35</td></tr>
+      <tr><td>CBS → Lakshmipuram</td><td>114</td><td class="fare-val">₹18</td></tr>
+    </tbody>
+  </table>
+
+  <div class="search-card">
+    <h3>🧮 Fare Calculator</h3>
+    <div class="field-group">
+      <label>From</label>
+      <select id="fc-from">
+        <option>CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Chamundi Betta</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>To</label>
+      <select id="fc-to">
+        <option>Chamundi Betta</option>
+        <option>CBS (City Bus Stand)</option>
+        <option>Mysore Palace</option>
+        <option>Gokulam</option>
+        <option>Hebbal</option>
+        <option>Vijayanagar</option>
+        <option>Kuvempunagar</option>
+      </select>
+    </div>
+    <button class="btn-primary" onclick="calcFare()">💰 Calculate Fare</button>
+    <div id="fare-result" style="margin-top:14px;display:none;">
+      <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:0.82rem;color:var(--muted);">Estimated Fare</div>
+        <div id="fare-amount" style="font-family:'Baloo 2',cursive;font-size:2.5rem;font-weight:800;color:var(--orange);"></div>
+        <div style="font-size:0.78rem;color:var(--muted);">KSRTC Ordinary Class</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ LOST & FOUND ══════════ -->
+<div id="page-lost" class="page">
+  <div class="section-header">🔍 Lost & Found Board</div>
+  <button class="report-btn" onclick="showToast('📝 Report form coming soon!')">+ Report Lost Item</button>
+
+  <div class="section-header" style="font-size:0.9rem;">📋 Recent Found Items</div>
+
+  <div class="lf-card">
+    <div class="lf-icon">👜</div>
+    <div class="lf-info">
+      <h4>Black Handbag</h4>
+      <p>Found on Route 101, near Zoo stop. Contains documents & keys.</p>
+      <div class="lf-meta">
+        <span>🕐 2 hrs ago</span>
+        <span>Route 101</span>
+        <span>🟢 Unclaimed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lf-card">
+    <div class="lf-icon">📱</div>
+    <div class="lf-info">
+      <h4>Samsung Mobile Phone</h4>
+      <p>Found on Route 102, CBS stop. Blue cover, cracked screen.</p>
+      <div class="lf-meta">
+        <span>🕐 5 hrs ago</span>
+        <span>Route 102</span>
+        <span>🟢 Unclaimed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lf-card">
+    <div class="lf-icon">🎒</div>
+    <div class="lf-info">
+      <h4>School Bag (Blue)</h4>
+      <p>Found on Route 105. Contains textbooks. Handover to CBS depot.</p>
+      <div class="lf-meta">
+        <span>🕐 1 day ago</span>
+        <span>Route 105</span>
+        <span>🟡 Enquired</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lf-card">
+    <div class="lf-icon">👓</div>
+    <div class="lf-info">
+      <h4>Spectacles (Gold Frame)</h4>
+      <p>Found near Chamundi Betta stop. At CBS Lost & Found counter.</p>
+      <div class="lf-meta">
+        <span>🕐 2 days ago</span>
+        <span>Route 101</span>
+        <span>🔴 Claimed</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:0.78rem;color:var(--muted);text-align:center;margin-top:10px;">
+    📍 CBS Lost & Found Counter open 6 AM – 9 PM daily
+  </p>
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modal-title">Route Details</h3>
+    <div id="modal-body"></div>
+    <button class="modal-close" onclick="closeModalDirect()">✕ Close</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  Built with ❤️ by <span>Team Penta Core</span> · #MysuruBusSaathi · #SmartMysuru
+</div>
+
+<script>
+// ── DATA ──
+const ROUTES = {
+  'CBS|Chamundi Betta': { no: '101', time: '45 min', freq: 'Every 20 min', crowd: 'Low', fare: 30, stops: ['CBS', 'Devaraja Market', 'Zoo', 'Chamundi Foothills', 'Chamundi Betta'] },
+  'CBS|Mysore Palace': { no: '102', time: '10 min', freq: 'Every 10 min', crowd: 'Moderate', fare: 15, stops: ['CBS', 'Devaraja Market', 'Mysore Palace'] },
+  'CBS|Gokulam':       { no: '103', time: '25 min', freq: 'Every 15 min', crowd: 'Low',  fare: 20, stops: ['CBS', 'Vontikoppal', 'Gokulam'] },
+  'CBS|Hebbal':        { no: '104', time: '30 min', freq: 'Every 25 min', crowd: 'Low',  fare: 22, stops: ['CBS', 'Bannimantap', 'Hebbal'] },
+  'CBS|Vijayanagar':   { no: '105', time: '20 min', freq: 'Every 15 min', crowd: 'High', fare: 18, stops: ['CBS', 'Lakshmipuram', 'Vijayanagar'] },
+  'CBS|Kuvempunagar':  { no: '106', time: '20 min', freq: 'Every 20 min', crowd: 'Low',  fare: 15, stops: ['CBS', 'Saraswathipuram', 'Kuvempunagar'] },
+  'CBS|Saraswathipuram':{ no:'107', time: '15 min', freq: 'Every 20 min', crowd: 'Low',  fare: 18, stops: ['CBS', 'Lakshmipuram', 'Saraswathipuram'] },
+  'CBS|Siddarthanagar':{ no: '108', time: '20 min', freq: 'Every 20 min', crowd: 'Moderate', fare: 20, stops: ['CBS', 'Jayalakshmipuram', 'Siddarthanagar'] },
+  'CBS|Yadavagiri':    { no: '110', time: '30 min', freq: 'Every 30 min', crowd: 'Low',  fare: 25, stops: ['CBS', 'Kuvempunagar', 'Yadavagiri'] },
+  'CBS|Bogadi':        { no: '111', time: '35 min', freq: 'Every 30 min', crowd: 'Low',  fare: 28, stops: ['CBS', 'Vijayanagar', 'Bogadi'] },
+  'CBS|Bannimantap':   { no: '112', time: '10 min', freq: 'Every 10 min', crowd: 'Low',  fare: 15, stops: ['CBS', 'Bannimantap'] },
+  'CBS|Nanjangud Road':{ no: '113', time: '40 min', freq: 'Every 30 min', crowd: 'Low',  fare: 35, stops: ['CBS', 'Nanjangud Road'] },
+  'CBS|Lakshmipuram':  { no: '114', time: '12 min', freq: 'Every 15 min', crowd: 'Moderate', fare: 18, stops: ['CBS', 'Lakshmipuram'] },
+};
+
+const TIMINGS = {
+  '101': { route: 'CBS → Chamundi Betta', times: [
+    { time:'06:00 AM', badge:'first', type:'First Bus' },
+    { time:'06:30 AM', badge:'running', type:'Running' },
+    { time:'07:00 AM', badge:'running', type:'Running' },
+    { time:'07:30 AM', badge:'running', type:'Running' },
+    { time:'08:00 AM', badge:'running', type:'Running' },
+    { time:'09:00 AM', badge:'running', type:'Running' },
+    { time:'10:30 AM', badge:'running', type:'Running' },
+    { time:'12:00 PM', badge:'running', type:'Running' },
+    { time:'02:00 PM', badge:'running', type:'Running' },
+    { time:'04:00 PM', badge:'running', type:'Running' },
+    { time:'06:00 PM', badge:'running', type:'Running' },
+    { time:'07:30 PM', badge:'running', type:'Running' },
+    { time:'09:00 PM', badge:'last', type:'Last Bus' },
+  ]},
+  '102': { route: 'CBS → Mysore Palace', times: [
+    { time:'05:30 AM', badge:'first', type:'First Bus' },
+    { time:'06:00 AM', badge:'running', type:'Running' },
+    { time:'07:00 AM', badge:'running', type:'Running' },
+    { time:'08:00 AM', badge:'running', type:'Running' },
+    { time:'09:00 AM', badge:'running', type:'Running' },
+    { time:'10:00 AM', badge:'running', type:'Running' },
+    { time:'11:00 AM', badge:'running', type:'Running' },
+    { time:'12:00 PM', badge:'running', type:'Running' },
+    { time:'01:00 PM', badge:'running', type:'Running' },
+    { time:'02:00 PM', badge:'running', type:'Running' },
+    { time:'03:00 PM', badge:'running', type:'Running' },
+    { time:'04:00 PM', badge:'running', type:'Running' },
+    { time:'05:00 PM', badge:'running', type:'Running' },
+    { time:'06:00 PM', badge:'running', type:'Running' },
+    { time:'07:00 PM', badge:'running', type:'Running' },
+    { time:'08:00 PM', badge:'running', type:'Running' },
+    { time:'09:30 PM', badge:'last', type:'Last Bus' },
+  ]},
+  '103': { route: 'CBS → Gokulam', times: [
+    { time:'06:00 AM', badge:'first', type:'First Bus' },
+    { time:'07:30 AM', badge:'running', type:'Running' },
+    { time:'09:00 AM', badge:'running', type:'Running' },
+    { time:'11:00 AM', badge:'running', type:'Running' },
+    { time:'01:00 PM', badge:'running', type:'Running' },
+    { time:'03:00 PM', badge:'running', type:'Running' },
+    { time:'05:00 PM', badge:'running', type:'Running' },
+    { time:'07:00 PM', badge:'running', type:'Running' },
+    { time:'09:00 PM', badge:'last', type:'Last Bus' },
+  ]},
+  '104': { route: 'CBS → Hebbal', times: [
+    { time:'06:30 AM', badge:'first', type:'First Bus' },
+    { time:'08:00 AM', badge:'running', type:'Running' },
+    { time:'10:00 AM', badge:'running', type:'Running' },
+    { time:'12:30 PM', badge:'running', type:'Running' },
+    { time:'03:00 PM', badge:'running', type:'Running' },
+    { time:'05:30 PM', badge:'running', type:'Running' },
+    { time:'08:00 PM', badge:'last', type:'Last Bus' },
+  ]},
+  '105': { route: 'CBS → Vijayanagar', times: [
+    { time:'05:45 AM', badge:'first', type:'First Bus' },
+    { time:'06:30 AM', badge:'running', type:'Running' },
+    { time:'07:00 AM', badge:'running', type:'Running' },
+    { time:'08:00 AM', badge:'running', type:'Running' },
+    { time:'09:00 AM', badge:'running', type:'Running' },
+    { time:'10:00 AM', badge:'running', type:'Running' },
+    { time:'12:00 PM', badge:'running', type:'Running' },
+    { time:'02:00 PM', badge:'running', type:'Running' },
+    { time:'04:00 PM', badge:'running', type:'Running' },
+    { time:'06:00 PM', badge:'running', type:'Running' },
+    { time:'09:00 PM', badge:'last', type:'Last Bus' },
+  ]},
+  '106': { route: 'CBS → Kuvempunagar', times: [
+    { time:'06:15 AM', badge:'first', type:'First Bus' },
+    { time:'07:30 AM', badge:'running', type:'Running' },
+    { time:'09:00 AM', badge:'running', type:'Running' },
+    { time:'11:00 AM', badge:'running', type:'Running' },
+    { time:'01:00 PM', badge:'running', type:'Running' },
+    { time:'03:30 PM', badge:'running', type:'Running' },
+    { time:'06:00 PM', badge:'running', type:'Running' },
+    { time:'09:00 PM', badge:'last', type:'Last Bus' },
+  ]},
+};
+
+const FARE_MAP = {
+  'CBS (City Bus Stand)|Chamundi Betta': 30,
+  'CBS (City Bus Stand)|Mysore Palace': 15,
+  'CBS (City Bus Stand)|Gokulam': 20,
+  'CBS (City Bus Stand)|Hebbal': 22,
+  'CBS (City Bus Stand)|Vijayanagar': 18,
+  'CBS (City Bus Stand)|Kuvempunagar': 15,
+  'Mysore Palace|Chamundi Betta': 20,
+  'Mysore Palace|Gokulam': 25,
+  'Chamundi Betta|CBS (City Bus Stand)': 30,
+  'Gokulam|CBS (City Bus Stand)': 20,
+  'Hebbal|CBS (City Bus Stand)': 22,
+  'Vijayanagar|CBS (City Bus Stand)': 18,
+  'Kuvempunagar|CBS (City Bus Stand)': 15,
+};
+
+// ── TAB SWITCHING ──
+function showTab(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const btns = document.querySelectorAll('.tab-btn');
+  const labels = ['home','routes','timings','crowd','nextbus','fares','lost'];
+  btns[labels.indexOf(name)]?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── ROUTE FINDER ──
+function findRoutes() {
+  const from = document.getElementById('from-stop').value;
+  const to = document.getElementById('to-stop').value;
+  const key = from + '|' + to;
+  const revKey = to + '|' + from;
+  const results = document.getElementById('route-results');
+  results.innerHTML = '<div class="section-header">✅ Available Routes</div>';
+  results.classList.add('show');
+
+  let route = ROUTES[key] || ROUTES[revKey];
+  if (!route) {
+    // generate a plausible route
+    route = { no: '1' + Math.floor(Math.random()*50+10), time: Math.floor(Math.random()*30+10)+' min', freq: 'Every 30 min', crowd: 'Low', fare: Math.floor(Math.random()*20+15), stops: [from, 'Devaraja Market', to] };
+  }
+
+  const crowdClass = route.crowd === 'Low' ? '' : route.crowd === 'Moderate' ? 'busy' : 'full';
+  const dotClass = route.crowd === 'Low' ? 'green' : route.crowd === 'Moderate' ? 'yellow' : 'red';
+
+  results.innerHTML += `
+    <div class="result-card ${crowdClass}" onclick="showRouteDetail('${route.no}','${from}','${to}',${route.fare},'${route.time}','${route.freq}','${route.crowd}')">
+      <div class="result-info">
+        <h4>🚌 Route ${route.no}</h4>
+        <p>${from} → ${to}</p>
+        <p>⏱️ ${route.time} · ${route.freq}</p>
+      </div>
+      <div class="result-meta">
+        <div class="fare-badge">₹${route.fare}</div>
+        <div class="crowd-dot"><span class="dot ${dotClass}"></span>${route.crowd} crowd</div>
+      </div>
+    </div>
+  `;
+
+  // Show alternate if exists
+  results.innerHTML += `
+    <div class="result-card busy" onclick="showToast('Alternate route details coming soon!')">
+      <div class="result-info">
+        <h4>🚌 Alternate Route</h4>
+        <p>${from} → ${to} (via City Centre)</p>
+        <p>⏱️ +10 min · Less frequent</p>
+      </div>
+      <div class="result-meta">
+        <div class="fare-badge">₹${route.fare + 5}</div>
+        <div class="crowd-dot"><span class="dot yellow"></span>Moderate</div>
+      </div>
+    </div>
+  `;
+}
+
+function showRouteDetail(no, from, to, fare, time, freq, crowd) {
+  document.getElementById('modal-title').textContent = 'Route ' + no + ' Details';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="detail-row"><span>From</span><span>${from}</span></div>
+    <div class="detail-row"><span>To</span><span>${to}</span></div>
+    <div class="detail-row"><span>Route No.</span><span>${no}</span></div>
+    <div class="detail-row"><span>Travel Time</span><span>${time}</span></div>
+    <div class="detail-row"><span>Frequency</span><span>${freq}</span></div>
+    <div class="detail-row"><span>Current Crowd</span><span>${crowd}</span></div>
+    <div class="detail-row"><span>🎟️ Fare</span><span style="color:var(--orange);font-weight:800;font-size:1.1rem;">₹${fare}</span></div>
+    <div class="detail-row"><span>Depot</span><span>CBS (City Bus Stand)</span></div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function swapStops() {
+  const from = document.getElementById('from-stop');
+  const to = document.getElementById('to-stop');
+  const tmp = from.value;
+  from.value = to.value;
+  to.value = tmp;
+}
+
+function fillRoute(from, to) {
+  showTab('routes');
+  setTimeout(() => {
+    document.getElementById('from-stop').value = from;
+    document.getElementById('to-stop').value = to;
+    findRoutes();
+  }, 100);
+}
+
+// ── TIMINGS ──
+function loadTimings(val) {
+  const cont = document.getElementById('timings-result');
+  if (!val) { cont.innerHTML = ''; return; }
+  const data = TIMINGS[val];
+  if (!data) { cont.innerHTML = '<p style="color:var(--muted);text-align:center;margin-top:20px;">No data available.</p>'; return; }
+
+  let html = `<div class="stop-card"><h4>🚌 Route ${val} · ${data.route}</h4>`;
+  data.times.forEach(t => {
+    html += `<div class="timing-row">
+      <span class="route-no">Route ${val}</span>
+      <span class="time">${t.time}</span>
+      <span class="badge ${t.badge}">${t.type}</span>
+    </div>`;
+  });
+  html += '</div>';
+  cont.innerHTML = html;
+}
+
+// ── CROWD ──
+function renderSeats(id, taken, total) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let html = '';
+  for (let i = 0; i < total; i++) {
+    html += `<div class="seat${i < taken ? ' taken' : ''}"></div>`;
+  }
+  el.innerHTML = html;
+}
+renderSeats('seats-1', 12, 40);
+renderSeats('seats-2', 29, 40);
+renderSeats('seats-3', 38, 40);
+
+function refreshCrowd() {
+  showToast('🔄 Crowd data refreshed!');
+}
+
+// ── NEXT BUS ──
+function estimateNext() {
+  const from = document.getElementById('nb-from').value;
+  const to = document.getElementById('nb-to').value;
+  const mins = Math.floor(Math.random() * 18 + 2);
+  const after = mins + Math.floor(Math.random() * 20 + 15);
+  document.getElementById('next-bus-result').innerHTML = `
+    <div class="next-bus-hero">
+      <div class="label">Next bus from ${from} → ${to}</div>
+      <div class="arrives">${mins}</div>
+      <div class="min-label">minutes away</div>
+      <div class="route-info">🚌 After that: <strong>${after} min</strong> &nbsp;|&nbsp; Fare: <strong style="color:var(--gold);">₹${Math.floor(Math.random()*20+15)}</strong></div>
+    </div>
+    <div class="result-card">
+      <div class="result-info">
+        <h4>🌙 Last Bus Info</h4>
+        <p>${from} → ${to}</p>
+        <p>Stay worry-free, plan your return!</p>
+      </div>
+      <div class="result-meta">
+        <div class="fare-badge">9:30 PM</div>
+        <div class="crowd-dot" style="color:var(--muted)">Last Bus</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── FARE CALCULATOR ──
+function calcFare() {
+  const from = document.getElementById('fc-from').value;
+  const to = document.getElementById('fc-to').value;
+  const key = from + '|' + to;
+  const revKey = to + '|' + from;
+  const fare = FARE_MAP[key] || FARE_MAP[revKey] || Math.floor(Math.random() * 20 + 15);
+  document.getElementById('fare-result').style.display = 'block';
+  document.getElementById('fare-amount').textContent = '₹' + fare;
+}
+
+// ── MODAL ──
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
